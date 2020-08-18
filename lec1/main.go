@@ -24,3 +24,5 @@ func main() {
 	http.HandleFunc("/", HomePage)
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }
+
+https://github.com/vlasove/go2_REST_API

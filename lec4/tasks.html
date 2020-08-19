@@ -380,8 +380,8 @@ code {
 <p>Вам необходимо реализовать 2 рута со следующим набором запросов:</p>
 <ul>
 <li>
-<p><em><strong>GET /items</strong></em> - возвращает все имеющиеся на данный момент товары в магазине. Завершается кодом <em><strong>200</strong></em> и набором товаров, в случае, если имеется как минимум один товар,
-кодом <em><strong>404</strong></em> и сообщением типа <code>{&quot;Error&quot; : &quot;No one item exists&quot;}</code></p>
+<p><em><strong>GET /items</strong></em> - возвращает все имеющиеся на данный момент товары в магазине. Завершается кодом <em><strong>200</strong></em> и набором товаров, в случае, если имеется как минимум один товар.
+В противном случае - кодом <em><strong>404</strong></em> и сообщением типа <code>{&quot;Error&quot; : &quot;No one item exists&quot;}</code></p>
 </li>
 <li>
 <p><em><strong>GET /item/{id}</strong></em> - возвращает товар по id. Завершается кодом <em><strong>200</strong></em> и информацией о товаре, если позиция найдена, <em><strong>404</strong></em> и <code>{&quot;Error&quot; : &quot;This item doesn't exist&quot;}</code> в противном случае.</p>

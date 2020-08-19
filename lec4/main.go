@@ -44,6 +44,7 @@ func GetArticleWithId(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if !find {
+		w.WriteHeader(http.StatusNotFound) // Изменить статус код запроса на 404
 		var erM = ErrorMessage{Message: "Not found article with that ID"}
 		json.NewEncoder(w).Encode(erM)
 	}
@@ -60,20 +61,54 @@ func PostNewArticle(w http.ResponseWriter, r *http.Request) {
 	reqBody, _ := ioutil.ReadAll(r.Body)
 	var article Article
 	json.Unmarshal(reqBody, &article) // Считываем все из тела зпроса в подготовленный пустой объект Article
-
+	w.WriteHeader(http.StatusCreated) // Изменить статус код запроса на 201
 	Articles = append(Articles, article)
 	json.NewEncoder(w).Encode(article) //После добавления новой статьи возвращает добавленную
 }
 
+//DeleterArticleWithId ...
 func DeleterArticleWithId(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
 
+	find := false
+
 	for index, article := range Articles {
 		if article.Id == id {
+			find = true
+			w.WriteHeader(http.StatusAccepted) // Изменить статус код на 202
 			Articles = append(Articles[:index], Articles[index+1:]...)
 		}
 	}
+	if !find {
+		w.WriteHeader(http.StatusNotFound) // Изменить статус код на 404
+		var erM = ErrorMessage{Message: "Article with that id doesn't exist"}
+		json.NewEncoder(w).Encode(erM)
+	}
+
+}
+
+//PutExistsArticle ....
+func PutExistsArticle(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	idKey := vars["id"] // СТРОКА
+	finded := false
+
+	for index, article := range Articles {
+		if article.Id == idKey {
+			finded = true
+			reqBody, _ := ioutil.ReadAll(r.Body)
+			w.WriteHeader(http.StatusAccepted)        // Изменяем статус код на 202
+			json.Unmarshal(reqBody, &Articles[index]) // перезаписываем всю информацию для статьи с Id
+		}
+	}
+
+	if !finded {
+		w.WriteHeader(http.StatusNotFound) // Изменяем статус код на 404
+		var erM = ErrorMessage{Message: "Not found article with that ID. Try use POST first"}
+		json.NewEncoder(w).Encode(erM)
+	}
+
 }
 
 func main() {
@@ -99,5 +134,6 @@ func main() {
 	// Грокаем алгоритмы (А. Бхаргава)
 	//
 	// Кнут + Кормен (Алгоритмы. Построение и анализ) - это для ПРО
+	myRouter.HandleFunc("/article/{id}", PutExistsArticle).Methods("PUT")
 	log.Fatal(http.ListenAndServe(":8000", myRouter))
 }

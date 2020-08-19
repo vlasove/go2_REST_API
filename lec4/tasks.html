@@ -390,10 +390,10 @@ code {
 <p><em><strong>POST /item</strong></em> - запрос на добавление товара в БД. Завершается кодом <em><strong>201</strong></em>.</p>
 </li>
 <li>
-<p><em><strong>PUT /item/{id}</strong></em> - обновить информацию о товаре по id. Завершается кодом <em><strong>202</strong></em>, если товар с id существует в бд, <em><strong>404</strong></em> и сообщением <code>{&quot;Error&quot; : &quot;Item with this id doesn't exist&quot;}</code></p>
+<p><em><strong>PUT /item/{id}</strong></em> - обновить информацию о товаре по id. Завершается кодом <em><strong>202</strong></em>, если товар с id существует в бд, <em><strong>404</strong></em> и сообщением <code>{&quot;Error&quot; : &quot;Item with this id doesn't exist&quot;}</code> в противном случае.</p>
 </li>
 <li>
-<p><em><strong>DELETE /item/{id}</strong></em> - удалить информацию о товаре по id. Завершается кодом <em><strong>202</strong></em> если товар с id уществует в бд, <em><strong>404</strong></em> и сообщением <code>{&quot;Error&quot; : &quot;Item with this id doen't exist&quot;}</code></p>
+<p><em><strong>DELETE /item/{id}</strong></em> - удалить информацию о товаре по id. Завершается кодом <em><strong>202</strong></em> если товар с id cуществует в бд, <em><strong>404</strong></em> и сообщением <code>{&quot;Error&quot; : &quot;Item with this id doen't exist&quot;}</code> в противном случае.</p>
 </li>
 </ul>
 <p>Ваше решение должно содержать как код программы (файл <code>main.go</code>) так и тестовый сценарий из postman (collection -&gt; import  -&gt; to json). Решение опубликовать на github.com и прислать ссылку в чат в приватное сообщение преподавателю по завершению задания.</p>

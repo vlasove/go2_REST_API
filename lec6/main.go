@@ -19,6 +19,7 @@ var Items []Item = []Item{
 	Item{"1", "abcd"},
 }
 
+//5. Начал реализовывать весь функционал
 //GetItems ...
 func GetItems(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(Items)
@@ -88,7 +89,15 @@ func DeleteItemID(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//2. Создал функциональные заготовки
+// func GetItemID() {}
+
+// func GetItems() {}
+
+// func PostItem() {}
+
 func main() {
+	//1. Прописал логику своего API
 	router := mux.NewRouter().StrictSlash(true)
 
 	router.HandleFunc("/items", GetItems).Methods("GET")

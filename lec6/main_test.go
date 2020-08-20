@@ -7,6 +7,8 @@ import (
 	"testing"
 )
 
+//3 . Создал ВСЕ МОДУЛЬНЫЕ ТЕСТЫ
+//4. Прописал тестовый сценарий в Postman
 func TestGetItems(t *testing.T) {
 	request, err := http.NewRequest("GET", "/items", nil)
 	if err != nil {
@@ -90,15 +92,19 @@ func TestPostItem(t *testing.T) {
 
 func TestDeleteItemIDDoesntExist(t *testing.T) {
 	request, err := http.NewRequest("DELETE", "/item", nil)
+
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	q := request.URL.Query()
 	q.Add("id", "200")
 	request.URL.RawQuery = q.Encode()
+
 	recorder := httptest.NewRecorder()
 	handler := http.HandlerFunc(DeleteItemID)
 	handler.ServeHTTP(recorder, request)
+
 	if status := recorder.Code; status != http.StatusNotFound {
 		t.Errorf("handler returned wrong status code: got %v want %v",
 			status, http.StatusNotFound)
@@ -107,8 +113,11 @@ func TestDeleteItemIDDoesntExist(t *testing.T) {
 
 func TestPutItemID(t *testing.T) {
 	var jsonFIle = []byte(`{"id":"1","content":"dfge"}`)
+
 	request, err := http.NewRequest("PUT", "/item", bytes.NewBuffer(jsonFIle))
+
 	q := request.URL.Query()
+
 	q.Add("id", "1")
 	request.URL.RawQuery = q.Encode()
 
@@ -117,6 +126,7 @@ func TestPutItemID(t *testing.T) {
 	}
 
 	request.Header.Set("Content-Type", "application/json")
+
 	recorder := httptest.NewRecorder()
 	handler := http.HandlerFunc(PutItemID)
 	handler.ServeHTTP(recorder, request)
@@ -129,7 +139,9 @@ func TestPutItemID(t *testing.T) {
 
 func TestPutItemIDdOESNTeXIST(t *testing.T) {
 	var jsonFIle = []byte(`{"id":"200","content":"dfge"}`)
+
 	request, err := http.NewRequest("PUT", "/item", bytes.NewBuffer(jsonFIle))
+
 	q := request.URL.Query()
 	q.Add("id", "200")
 	request.URL.RawQuery = q.Encode()
@@ -139,6 +151,7 @@ func TestPutItemIDdOESNTeXIST(t *testing.T) {
 	}
 
 	request.Header.Set("Content-Type", "application/json")
+
 	recorder := httptest.NewRecorder()
 	handler := http.HandlerFunc(PutItemID)
 	handler.ServeHTTP(recorder, request)
@@ -151,15 +164,19 @@ func TestPutItemIDdOESNTeXIST(t *testing.T) {
 
 func TestDeleteItemID(t *testing.T) {
 	request, err := http.NewRequest("DELETE", "/item", nil)
+
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	q := request.URL.Query()
 	q.Add("id", "1")
 	request.URL.RawQuery = q.Encode()
+
 	recorder := httptest.NewRecorder()
 	handler := http.HandlerFunc(DeleteItemID)
 	handler.ServeHTTP(recorder, request)
+
 	if status := recorder.Code; status != http.StatusAccepted {
 		t.Errorf("handler returned wrong status code: got %v want %v",
 			status, http.StatusAccepted)

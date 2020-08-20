@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
@@ -101,11 +102,48 @@ func PostItem(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+//DeleteItemFromDB ...
+func DeleteItemFromDB(id int) bool {
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	result, err := db.Exec("delete from Items where id=$1", id)
+	if err != nil {
+		panic(err)
+	}
+	if val, _ := result.RowsAffected(); val < 1 {
+		return false
+	}
+	return true
+}
+
+//DeleteItemID ...
+func DeleteItemID(w http.ResponseWriter, r *http.Request) {
+	idString := mux.Vars(r)["id"] //r.URL.Query().Get("id") ???
+
+	id, _ := strconv.Atoi(idString)
+
+	if DeleteItemFromDB(id) {
+		w.WriteHeader(http.StatusAccepted)
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+	}
+}
+
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	//GET /items - return all items in database
 	router.HandleFunc("/items", GetAll).Methods("GET")
 	//POST /item - save new item to DB
 	router.HandleFunc("/item", PostItem).Methods("POST")
+	//DELETE /item/{id} - delete item with concrete id from db
+	router.HandleFunc("/item/{id}", DeleteItemID).Methods("DELETE")
+
+	//PUT /item/{id} --- обновить информацию про item с id
+	//GET /item/{id} --- получить информацию про конкретный item с id
+
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

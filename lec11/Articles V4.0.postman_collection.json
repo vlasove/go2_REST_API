@@ -1,0 +1,202 @@
+{
+	"info": {
+		"_postman_id": "9403bd13-ae5c-4375-80d5-718fbf1caab5",
+		"name": "Articles V4.0",
+		"description": "Сценарий валидации API для случая наличия базы данных.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET /articles",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/articles",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"articles"
+					]
+				},
+				"description": "ВОзвращает все имеющиеся в БД статьи"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /article",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTk4MjkyMDQ5LCJuYW1lIjoiYm9iMiJ9.C6HDMdZqV5Z_ZMX5UAMt1c1SWdtJYdnqwbulioLU3rA",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\" : \"New title2\",\n    \"author\" : \"Author2\",\n    \"content\" : \"Content in article2\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/article",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"article"
+					]
+				},
+				"description": "Позволяет добавить статью в БД"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /article/{id}",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbiI6dHJ1ZSwiZXhwIjoxNTk4MjkyNDU3LCJuYW1lIjoiYm9iMiJ9.BduV8yvfZiG1qdulPOaetHvM7Sq4qJCA__PAgPB1txs",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/article/2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"article",
+						"2"
+					]
+				},
+				"description": "Удаляем статью с ID"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\" : \"bob\",\n    \"password\" : \"1234\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"register"
+					]
+				},
+				"description": "Позволяет пользователю зарегестрироваться"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /auth",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\" : \"bob2\",\n    \"password\" : \"1234\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/auth",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"auth"
+					]
+				},
+				"description": "Выбивает токен для зарегестрированного пользователя"
+			},
+			"response": []
+		},
+		{
+			"name": "GET /article/{id}",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer ...",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/article/{id}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"article",
+						"{id}"
+					]
+				},
+				"description": "Возврашает статью из БД по id"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /article/{id}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Bearer ..."
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\" :\"updated title\",\n    \"author\" : \"updated author\",\n    \"content\" : \"updated content\"\n}"
+				},
+				"url": {
+					"raw": "{{url}}/article/{id}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"article",
+						"{id}"
+					]
+				},
+				"description": "Обновляет информацию про имеющуюся статью с ID"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

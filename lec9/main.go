@@ -5,6 +5,11 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
+
+	jwtmiddleware "github.com/auth0/go-jwt-middleware"
+
+	"github.com/dgrijalva/jwt-go"
 
 	"github.com/gorilla/mux"
 )
@@ -16,7 +21,7 @@ type User struct {
 }
 
 var Users = []User{
-	User(1, "bob", "1234"),
+	User{1, "bob", "1234"},
 }
 
 var SecretKey = []byte("secret")
@@ -41,10 +46,35 @@ func PostArticle(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(article)
 }
 
+func GetToken(w http.ResponseWriter, r *http.Request) {
+	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+
+	claims["admin"] = true
+	claims["name"] = "New User"
+	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+
+	tokenString, err := token.SignedString(SecretKey)
+	if err != nil {
+		log.Fatal(err)
+	}
+	w.Write([]byte(tokenString))
+}
+
+var jwtMiddleware = jwtmiddleware.New(jwtmiddleware.Options{
+	ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
+		return SecretKey, nil
+	},
+	SigningMethod: jwt.SigningMethodHS256,
+})
+
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
 	router.HandleFunc("/articles", GetAll).Methods("GET")
-	router.HandleFunc("/article", PostArticle).Methods("POST")
+
+	//ТРЕБУЕТ АУТЕНТИФИКАЦИИ
+	router.Handle("/article", jwtMiddleware.Handler(http.HandlerFunc(PostArticle))).Methods("POST")
+
 	router.HandleFunc("/auth", GetToken).Methods("GET")
 
 	log.Fatal(http.ListenAndServe(":8080", router))

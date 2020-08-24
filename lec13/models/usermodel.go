@@ -9,7 +9,7 @@ type User struct {
 	Country string `json:"country"`
 }
 
-//TableName ...
+//TableName ... using by GORM in each query
 func (b *User) TableName() string {
 	return "Users"
 }

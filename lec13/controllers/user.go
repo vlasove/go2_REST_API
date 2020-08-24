@@ -50,7 +50,7 @@ func GetUserByID(c *gin.Context) {
 func UpdateUser(c *gin.Context) {
 	var user models.User
 	id := c.Params.ByName("id")
-	err := models.GetUserById(&user, id)
+	err := models.GetUserByID(&user, id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, user)
 	}

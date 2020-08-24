@@ -1,0 +1,22 @@
+version : '3'
+services:
+    app :
+        container_name : sample_container
+        build: .
+        ports:
+            - 8080:8080
+        restart: on-failure
+        depends_on:
+            - sample_postgres 
+
+    sample_postgres:
+        image: postgres:latest #mysql:latest
+        container_name: sample_postgres
+        environment: :
+            - POSTGRES_USER=${PostgresUSserFromEnvironment}
+            - POSTGRES_PASSWORD=${PostgresPasswordFromEnv}
+            - POSTGRES_DB=${DBName}
+            - POSTGRES_SSL = ${DBSSL}
+            - DATABASE_HOST=${DB_HOST}
+        ports:
+            - '5432:5432'
